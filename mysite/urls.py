@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from views import AboutView, RootPageView
-from galery.views import AuthorView, PageListView
+from galery.views import AuthorView
 
 urlpatterns = patterns('',
     # Examples:
@@ -10,9 +10,8 @@ urlpatterns = patterns('',
 
     (r'^ueber/$', AboutView.as_view()),
     (r'^kunstler/$', AuthorView.as_view()),
-    (r'^galerie/', PageListView.as_view()),
-    url(r'galerie/(?P<seite>\d+)/$', PageListView.as_view(), name='seite_detail'),
+    url(r'^galerie/', include('galery.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    (r'(^([^/]+)/)*$', RootPageView.as_view()),
+#    (r'(^([^/]+)/)*$', RootPageView.as_view()),
 
 )
