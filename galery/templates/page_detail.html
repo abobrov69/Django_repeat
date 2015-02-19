@@ -1,6 +1,7 @@
 {% extends "base.html" %}
+{% load gns_galery_extras %}
 
-{% block title %}Раздел{% endblock %}
+{% block title %}Раздел {{ seite.titel }}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -11,9 +12,27 @@
       </div>
       <div class="row-fluid">
         <div class="span12">
-            <h2>Раздел галереи - {{ seite.titel }}</h2>
+            <h2><a href="../">Галерея</a> - {{ seite.titel }} - Страница {{ pg_num }}</h2>
         </div>
       </div>
+      <div class="row-fluid">
+               {% for bilds_arr in bilds %}
+                  <div class="row-fluid">
+                     {% for bild in bilds_arr %}
+                         <div class="span{{ n_span }}">
+                             <p class="text-center"><a href="/galerie/image/{{ bild.pk }}">
+                             <img align=top src="/static/media/{{ bild.dateiname_klein|strip }}"></a></p>
+                         </div>
+                     {% endfor %}
+                  </div>
+                  <div class="row-fluid">
+                     {% for bild in bilds_arr %}
+                         <div class="span{{ n_span }}">
+                             <p class="text-center"><a href="/galerie/image/{{ bild.pk }}">{{bild.titel}}</p></a></p>
+                         </div>
+                     {% endfor %}
+                  </div>
+               {% endfor %}
 
 
 

@@ -12,6 +12,5 @@ urlpatterns = patterns('',
     (r'^kunstler/$', AuthorView.as_view()),
     url(r'^galerie/', include('galery.urls')),
     url(r'^admin/', include(admin.site.urls)),
-#    (r'(^([^/]+)/)*$', RootPageView.as_view()),
-
+    url('^$', RootPageView.as_view (), name="rootpage"),
 )

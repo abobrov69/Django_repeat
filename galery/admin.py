@@ -8,7 +8,7 @@ class BildInline(admin.TabularInline):
 
 class GSeiteAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['titel','seite_url','isdeleted']}),
+        (None,               {'fields': ['titel','seite_url','isdeleted','dateiname_img']}),
         ('Text', {'fields': ['text'], 'classes': ['collapse']}),
     ]
     inlines = [BildInline]

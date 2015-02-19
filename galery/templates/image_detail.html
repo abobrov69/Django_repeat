@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load gns_galery_extras %}
+
+{% block title %}{{ bild.seite.titel }} - {{ bild.titel }}{% endblock %}
+
+{% block content %}
+<div class="container">
+      <div class="row-fluid">
+        <div class="span12">
+            <a href="/">[Перейти на главную страницу]</a></p>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+            <h2><a href="../../{{ bild.seite.seite_url|strip }}">{{ bild.seite.titel }}</a> - {{ bild.titel }}</h2>
+        </div>
+      </div>
+      <div class="row-fluid">
+                         <div class="span12">
+                             <p class="text-center">
+                             <img align=top src="/static/media/{{ bild.dateiname_gross|strip }}"></a></p>
+                         </div>
+
+      </div>
+{% endblock %}

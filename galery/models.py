@@ -5,6 +5,7 @@ class GalerieSeite(models.Model):
     titel = models.CharField(max_length=256, verbose_name= 'Header')
     isdeleted = models.BooleanField(default=False)
     text = models.TextField(blank=True, verbose_name='Text')
+    dateiname_img = models.CharField(max_length=64, verbose_name= 'Image file name', default=' ')
 
     def __unicode__(self):
         return self.titel + '\n' + self.seite_url
