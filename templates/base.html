@@ -18,7 +18,47 @@
     <link href="{% static "css/bootstrap-responsive.css" %}" rel="stylesheet">
 
   </head>
+<header>
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+      <div class="row-fluid">
+        <div class="span12"> <h2><p class="text-center"><a href="/">Прототип</a></p></h2></div>
+      </div>
+    </div>
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+      <div class="row-fluid">
+        <div class="span12"> <h3><p class="text-center">{% block pagename %}{% endblock %}</p></h3></div>
+      </div>
+    </div><!--/.fluid-container-->
+</header>
 <body>
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+    <hr>
+      <div class="row-fluid">
+        <div class="span4">
+                <p class="text-center">{% block root_ref%}<a href="/">[Главная страница]</a>{% endblock %}</p>
+        </div><!--/span-->
+        <div class="span4">
+             <p class="text-center">{% block galery_ref%}<a href="/galerie/">[Галерея]</a>{% endblock %}</p>
+        </div><!--/span-->
+        <div class="span4">
+                <p class="text-center">{% block author_ref%}<a href="/kunstler/">[Об авторе]</a>{% endblock %}</p>
+         </div><!--/span-->
+
+      </div><!--/row-->
+    <hr>
+    </div>
 {% block content %}{% endblock %}
 </body>
+<footer>
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+      <div class="row-fluid">
+        <div class="span6">
+                <small><p class="text-right" class="text-muted">&copy;2008-2015 <a href="mailto:pushinda@mail.ru">Татьяна Боброва</a> - оригинальные произведения</p></small>
+        </div><!--/span-->
+        <div class="span6">
+                <small><p class="text-leftr" class="text-muted">&copy;2008-2015 <a href="mailto:anton.v.bobrov@gmail.com">Антон Бобров</a> - программирование и оформление <a href="/ueber/">сайта</a>, фото.</p></small>
+        </div><!--/span-->
+      </div><!--/span-->
+    </div>
+</footer>
 </html>

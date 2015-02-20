@@ -1,27 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Разделы галереи{% endblock %}
+{% block title %}Галерея - Разделы{% endblock %}
 
 {% load gns_galery_extras %}
 
+{% block pagename %}<a href="./">Галерея - Разделы</a>{% endblock %}
+
+{% block galery_ref %}<strong><a href="./">[Галерея - <em>Разделы</em>]</a></strong>{% endblock %}
+
 {% block content %}
     <div class="container">
-      <div class="row-fluid">
-        <div class="span12">
-            <a href="/">[Перейти на главную страницу]</a></p>
-        </div>
-      </div>
-      <div class="row-fluid">
-        <div class="span12">
-            <h2>Разделы галереи</h2>
-        </div>
-      </div>
-               {% for seite_arr in seite_liste %}
+               {% for seite_arr in view.seite_liste %}
                   <div class="row-fluid">
                      {% for seite in seite_arr %}
                          <div class="span4">
                              <p class="text-center"><a href="{{ seite.seite_url }}">
-                             <img align=top src="/static/media/{{ seite.dateiname_img|strip }}"></a></p>
+                             <img align=top src="{{ media_url|default:"/static/media/" }}{{ seite.dateiname_img|strip }}"></a></p>
                          </div>
                      {% endfor %}
                   </div>

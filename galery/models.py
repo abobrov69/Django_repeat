@@ -2,7 +2,7 @@ from django.db import models
 
 class GalerieSeite(models.Model):
     seite_url = models.CharField(max_length=64, verbose_name= 'URL', blank=True)
-    titel = models.CharField(max_length=256, verbose_name= 'Header')
+    titel = models.CharField(max_length=128, verbose_name= 'Header')
     isdeleted = models.BooleanField(default=False)
     text = models.TextField(blank=True, verbose_name='Text')
     dateiname_img = models.CharField(max_length=64, verbose_name= 'Image file name', default=' ')
@@ -16,9 +16,10 @@ class GalerieSeite(models.Model):
 
 class Bild(models.Model):
     seite = models.ForeignKey(GalerieSeite)
-    titel = models.CharField(max_length=256, verbose_name= 'Header')
+    titel = models.CharField(max_length=128, verbose_name= 'Header')
     dateiname_gross = models.CharField(max_length=64, verbose_name= 'Big image file name')
     dateiname_klein = models.CharField(max_length=64, verbose_name= 'Small image file name')
+    kommentar = models.CharField(max_length=128, verbose_name= 'Comment', default=' ')
     isdeleted = models.BooleanField(default=False)
 
     def __unicode__(self):
