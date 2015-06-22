@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 
 class AuthorView(TemplateView):
+    a = 1
     template_name = "author.html"
 
     def get_context_data(self, **kwargs):
