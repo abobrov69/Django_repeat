@@ -50,18 +50,27 @@ class PageView(CheckDeletedPageMixin, DetailView):
     context_object_name = 'seite'
     upper_class = DetailView
     pg_num = 1
-    img_in_row = 3
+    no_pg_num_str = ''
+    img_in_row = 2
+    img_in_pg = 4
     n_span = 4
 
     def dispatch(self, request, *args, **kwargs):
         if self.img_in_row > 12: self.img_in_row = 12
         self.n_span = int(12 / self.img_in_row)
-        self.pg_num = 1 if not 'pg_num' in kwargs.keys() else int(kwargs['pg_num'])
+        if not 'pg_num' in kwargs.keys():
+            self.pg_num = 1
+            self.no_pg_num_str = ''
+        else:
+            self.pg_num = int(kwargs['pg_num'])
+            self.no_pg_num_str = '../'
         qs = self.model._default_manager.filter(seite_url=kwargs['seite_url'])
         if qs:
             bs = qs.get().bild_set.all()
             self.bilds = []
             i = 1
+            n_first = self.pg_num * len (bs) / self.img_in_pg - 1
+            bs = bs [n_first:self.img_in_pg]
             for k in bs:
                 if i == 1: self.bilds.append([])
                 self.bilds[-1].append(k)

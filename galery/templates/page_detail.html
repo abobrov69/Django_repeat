@@ -26,7 +26,7 @@
                   <div class="row-fluid">
                      {% for bild in bilds_arr %}
                          <div class="span{{ view.n_span }}">
-                             <p class="text-center"><a href="../image/{{ view.pg_num }}/{{ bild.pk }}">
+                             <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}">
                              <img align=top src="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}"></a></p>
                          </div>
                      {% endfor %}
@@ -34,7 +34,7 @@
                   <div class="row-fluid">
                      {% for bild in bilds_arr %}
                          <div class="span{{ view.n_span }}">
-                             <p class="text-center"><a href="../image/{{ view.pg_num }}/{{ bild.pk }}">{{bild.titel}}</p></a></p>
+                             <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}">{{bild.titel}}</p></a></p>
                          </div>
                      {% endfor %}
                   </div>

@@ -4,11 +4,11 @@
 {% block title %}Галерея - {{ bild.seite.titel }} - {{ bild.titel }}{% endblock %}
 
 {% block pagename %}
-    <a href="../../">Галерея</a> - <a href="../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>
+    <a href="../../">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>
 {% endblock %}
 
 {% block galery_ref %}
-    <strong>[<a href="../../">Галерея</a> - <a href="../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a> - <em><a href="./">{{ bild.titel }}</a></em>]</strong>
+    <strong>[<a href="../../">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a> - <em><a href="./">{{ bild.titel }}</a></em>]</strong>
 {% endblock %}
 
 {% block content %}
