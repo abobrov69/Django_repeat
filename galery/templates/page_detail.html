@@ -17,10 +17,25 @@
       </div>
     {% endif %}
       <div class="row-fluid">
-        <div class="span12">
-            <p class="text-center">Страница {{ view.pg_num }}</p>
+              <div class="span5">
+            <p class="text-right">
+                {% if  view.pg_num_prev %}
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}">[<-Предыдущая страница]</a>
+                {% endif %} 
+            </p>
+        </div>
+        <div class="span2">
+            <p class="text-center"><strong>[Страница {{ view.pg_num }}]</strong></p>
+        </div>
+        <div class="span5">
+            <p class="text-left">
+                {% if  view.pg_num_next %}
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}">[Следующая страница->]</a>
+                {% endif %}
+            </p>
         </div>
       </div>
+      <hr>
       <div class="row-fluid">
                {% for bilds_arr in view.bilds %}
                   <div class="row-fluid">
