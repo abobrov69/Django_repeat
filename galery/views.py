@@ -58,9 +58,10 @@ class PageView(CheckDeletedPageMixin, DetailView):
     pg_lst_len = 5
     pg_num_next = 2
     no_pg_num_str = ''
-    img_in_row = 2
-    img_in_pg = 4
+    img_in_row = 1
+    img_in_pg = 2
     n_span = 6
+    num_pages = 0
 
     def dispatch(self, request, *args, **kwargs):
         if self.img_in_row > 12: self.img_in_row = 12
@@ -75,15 +76,44 @@ class PageView(CheckDeletedPageMixin, DetailView):
         qs = self.model._default_manager.filter(seite_url=kwargs['seite_url'])
         if qs:
             bs = qs.get().bild_set.all()
-            num_pages = len (bs) / self.img_in_pg + 1 if len (bs) % self.img_in_pg else 0
-            if num_pages < self.pg_num: self.pg_num = num_pages
+            n5 = len (bs)
+            n1 = n5 / self.img_in_pg
+            self.num_pages = n1 + (1 if n5 % self.img_in_pg else 0)
+            if self.num_pages < self.pg_num: self.pg_num = self.num_pages
             self.pg_num_prev = self.pg_num - 1
             self.pg_num_next = self.pg_num + 1
-            if num_pages < self.pg_num_next: self.pg_num_next = 0
+            if self.num_pages < self.pg_num_next: self.pg_num_next = 0
+            if self.num_pages > self.pg_lst_len:
+                n1 = self.pg_num - self.pg_lst_len / 2
+                if n1 < 1: n1 = 1
+                self.pg_left_arrow = (n1 > 1)
+                n5 = n1 + self.pg_lst_len - 1
+                self.pg_right_arrow = ( n5 < self.num_pages)
+            else:
+                n1 = 1
+                n5 = n1 + self.num_pages - 1
+                self.pg_left_arrow = False
+                self.pg_right_arrow = False
+
+            if n1 < self.pg_num:
+                self.pg_num_larr = []
+                while n1 < self.pg_num:
+                    self.pg_num_larr.append(n1)
+                    n1+= 1
+            else: self.pg_num_larr = False
+            if n5 > self.pg_num:
+                self.pg_num_rarr = []
+                n1 = self.pg_num + 1
+                while n1 <= n5:
+                    self.pg_num_rarr.append(n1)
+                    n1+= 1
+            else: self.pg_num_rarr = False
+
             self.bilds = []
             i = 1
-            n_first = 0 if num_pages == 0 else self.pg_num * len (bs) / self.img_in_pg - 1
-            bs = bs [n_first:self.img_in_pg]
+            n_first = 0 if self.num_pages == 0 else (self.pg_num-1) * self.img_in_pg
+            n1 = n_first+self.img_in_pg
+            bs = bs [n_first:n1]
             for k in bs:
                 if i == 1: self.bilds.append([])
                 self.bilds[-1].append(k)
