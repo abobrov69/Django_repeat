@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Прототип - {% block title %}{% endblock %}</title>
+    <title>Татьяна Боброва, художник - {% block title %}{% endblock %}</title>
     {% load static from staticfiles %}
 
     <!-- Le styles -->
@@ -14,14 +14,28 @@
       .sidebar-nav {
         padding: 9px 0;
       }
+
     </style>
     <link href="{% static "css/bootstrap-responsive.css" %}" rel="stylesheet">
+    <style>
+        .shares {
+        white-space:nowrap;
+        }
+        .fix {display:inline; float:left ; padding-left:3px;}
+        .social{
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+        height:20px;
+        }
 
+    </style>
+    {% block pagehead %}{% endblock %}
   </head>
 <header>
     <div class="container" xmlns="http://www.w3.org/1999/html">
       <div class="row-fluid">
-        <div class="span12"> <h2><p class="text-center"><a href="/">Прототип</a></p></h2></div>
+        <div class="span12"> <h2><p class="text-center"><a href="/">Татьяна Боброва</a></p></h2></div>
       </div>
     </div>
     <div class="container" xmlns="http://www.w3.org/1999/html">
@@ -31,6 +45,15 @@
     </div><!--/.fluid-container-->
 </header>
 <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div class="container" xmlns="http://www.w3.org/1999/html">
     <hr>
       <div class="row-fluid">
@@ -58,7 +81,7 @@
                 <small><p class="text-right" class="text-muted">&copy;2008-2015 <a href="mailto:pushinda@mail.ru">Татьяна Боброва</a> - оригинальные произведения</p></small>
         </div><!--/span-->
         <div class="span6">
-                <small><p class="text-leftr" class="text-muted">&copy;2008-2015 <a href="mailto:anton.v.bobrov@gmail.com">Антон Бобров</a> - программирование и оформление <a href="/ueber/">сайта</a>, фото.</p></small>
+                <small><p class="text-leftr" class="text-muted">&copy;2008-2015 <a href="mailto:anton.v.bobrov@gmail.com">Антон Бобров</a> - фото, программирование и оформление <a href="/ueber/">сайта</a>.</p></small>
         </div><!--/span-->
       </div><!--/span-->
     </div>

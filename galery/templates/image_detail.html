@@ -1,14 +1,21 @@
 {% extends "base.html" %}
 {% load gns_galery_extras %}
+{% block pagehead %}
+    <meta property="og:url" content="{{ aurl }}" />
+    <meta property="og:title" content="Татьяна Боброва - {{ bild.titel }}" />
+    <meta property="og:image" content="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}" />
+    <meta property="og:description" content="{{ bild.kommentar }}" />
+{% endblock %}
+
 
 {% block title %}Галерея - {{ bild.seite.titel }} - {{ bild.titel }}{% endblock %}
 
 {% block pagename %}
-    <a href="../../">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>
+    <a href="/galerie/">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>
 {% endblock %}
 
 {% block galery_ref %}
-    <strong>[<a href="../../">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a> - <em><a href="./">{{ bild.titel }}</a></em>]</strong>
+    <strong>[<a href="/galerie/">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a> - <em><a href="./">{{ bild.titel }}</a></em>]</strong>
 {% endblock %}
 
 {% block content %}
@@ -29,4 +36,22 @@
                              <p class="text-center"><small>{{ bild.kommentar }}</small></p>
                          </div>
       </div>
+
+      <div class="shares">
+      <div class="row-fluid">
+          <div class="span4">
+            <p class="text-center">
+            </p>
+          </div>
+          <div class="span2">
+             <div class='fix'>
+                <div class="fb-share-button" data-href="{{ aurl }}" data-layout="button_count"></div>
+             </div>
+          </div>
+          <div class="span1"></div>
+          <div class="span1" align="center">
+                <div class="fb-like" data-href="{{ aurl }}" data-layout="button_count" data-action="like" data-show-faces="true"></div>
+          </div>
+      </div>
+
 {% endblock %}

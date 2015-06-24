@@ -58,8 +58,8 @@ class PageView(CheckDeletedPageMixin, DetailView):
     pg_lst_len = 5
     pg_num_next = 2
     no_pg_num_str = ''
-    img_in_row = 1
-    img_in_pg = 2
+    img_in_row = 3
+    img_in_pg = 6
     n_span = 6
     num_pages = 0
 
@@ -126,6 +126,11 @@ class OneImageView(DetailView):
     template_name = "image_detail.html"
     context_object_name = 'bild'
     pg_num = 1
+
+    def get_context_data(self, **kwargs):
+        context = super(OneImageView, self).get_context_data(**kwargs)
+        context['aurl'] = self.request.build_absolute_uri()
+        return context
 
     def dispatch(self, request, *args, **kwargs):
         self.pg_num = kwargs['pg_num']
