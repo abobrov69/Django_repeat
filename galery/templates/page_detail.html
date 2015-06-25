@@ -17,24 +17,25 @@
       </div>
     {% endif %}
       <div class="row-fluid">
-              <div class="span5">
+              <div class="span4">
             <p class="text-right">
                 {% if  view.pg_num_prev %}
-                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}">[<-Предыдущая страница]</a>
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}">[&larr; Предыдущая страница]</a>
                 {% endif %} 
             </p>
         </div>
-        <div class="span2">
+        <div class="span4">
             <p class="text-center"><strong>[Страница {{ view.pg_num }}]</strong></p>
         </div>
-        <div class="span5">
+        <div class="span4">
             <p class="text-left">
                 {% if  view.pg_num_next %}
-                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}">[Следующая страница->]</a>
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}">[Следующая страница &rarr;]</a>
                 {% endif %}
             </p>
         </div>
       </div>
+
       <div class="row-fluid">
               <div class="span12"><h5>
             <p class="text-center">
@@ -67,7 +68,7 @@
                      {% for bild in bilds_arr %}
                          <div class="span{{ view.n_span }}">
                              <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}">
-                             <img align=top src="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}"></a></p>
+                             <img align=top class="img-polaroid" src="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}"></a></p>
                          </div>
                      {% endfor %}
                   </div>
