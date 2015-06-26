@@ -74,8 +74,16 @@ class PageView(CheckDeletedPageMixin, DetailView):
             if self.pg_num <1: self.pg_num = 1
             self.no_pg_num_str = '../'
         qs = self.model._default_manager.filter(seite_url=kwargs['seite_url'])
-        if qs:
-            bs = qs.get().bild_set.all()
+        if qs.exists():
+            a = qs.order_by('-id').get().bild_set.order_by ('-pk')
+            a2 = a.reverse()
+            a3 = a.order_by ('-pk')
+            d1 = a[1]
+            d2 = a2[1]
+            c = type (a)
+
+
+            bs = qs.get().bild_set.order_by ('-pk')
             n5 = len (bs)
             n1 = n5 / self.img_in_pg
             self.num_pages = n1 + (1 if n5 % self.img_in_pg else 0)
