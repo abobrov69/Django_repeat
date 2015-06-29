@@ -6,62 +6,14 @@
 
     <!-- Le styles -->
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
-
-    </style>
     <link href="{% static "css/bootstrap-responsive.min.css" %}" rel="stylesheet">
-    <style>
-        .shares {
-        white-space:nowrap;
-        }
-        .fix {display:inline; float:left ; padding-left:3px;}
-        .social{
-        text-align: center;
-        vertical-align: middle;
-        display: inline-block;
-        height:20px;
-        }
-        .vcenter {
-        display: inline-block;
-        float: none;
-        vertical-align: middle;
-}
-
-    </style>
     {% block pagehead %}{% endblock %}
   </head>
-<header>
-    <div class="container" xmlns="http://www.w3.org/1999/html">
-      <div class="row-fluid">
-        <div class="span12"> <h2><p class="text-center"><a href="/">Татьяна Боброва</a></p></h2></div>
-      </div>
-    </div>
-    <div class="container" xmlns="http://www.w3.org/1999/html">
-      <div class="row-fluid">
-        <div class="span12"> <h3><p class="text-center">{% block pagename %}{% endblock %}</p></h3></div>
-      </div>
-    </div><!--/.fluid-container-->
-</header>
 <body>
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-    <div class="container" xmlns="http://www.w3.org/1999/html">
-    <hr>
-      <div class="row-fluid">
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="page-header">
+        <h2><p class="text-center"><a href="/">Татьяна Боброва</a></p></h2>
+              <div class="row-fluid">
         <div class="span4">
                 <p class="text-center">{% block root_ref%}<a href="/">[Главная страница]</a>{% endblock %}</p>
         </div><!--/span-->
@@ -73,13 +25,26 @@
          </div><!--/span-->
 
       </div><!--/row-->
-    <hr>
+    </div></div>
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+
+
     </div>
 {% block content %}{% endblock %}
 </body>
 <footer>
+
     <div class="container" xmlns="http://www.w3.org/1999/html">
-      <br>
       <hr>
       <div class="row-fluid">
         <div class="span6">

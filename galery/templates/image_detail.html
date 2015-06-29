@@ -9,8 +9,8 @@
     <meta property="og:description" content="{{ bild.kommentar }}" />
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
     <script type="text/javascript">VK.init({apiId: 4971548, onlyWidgets: true});</script>
-    <script src="http://cdn.connect.mail.ru/js/loader.js" type="text/javascript" charset="UTF-8"></script>
-});
+
+
 {% endblock %}
 
 
@@ -59,7 +59,8 @@
                      </li>
                      <li>&nbsp;</li>
                      <li>
-                         <a target="_blank" class="mrc__plugin_uber_like_button" href="http://connect.mail.ru/share" data-mrc-config="{'cm' : '1', 'sz' : '20', 'st' : '3', 'tp' : 'mm'}">Нравится</a>
+                         <a target="_blank" class="mrc__plugin_uber_like_button" href="http://connect.mail.ru/share" data-mrc-config="{'cm' : '1', 'sz' : '20', 'st' : '2', 'tp' : 'mm'}">Нравится</a>
+                         <script src="http://cdn.connect.mail.ru/js/loader.js" type="text/javascript" charset="UTF-8"></script>
                      </li>
                   </ul>
             </div>
@@ -74,6 +75,13 @@
                              <p class="text-center"><small>{{ bild.kommentar }}</small></p>
                          </div>
       </div>
+      {% if bild.price %}
+        <div class="row-fluid">
+                         <div class="span12">
+                             <p class="text-center"><a href="mailto:pushinda@mail.ru?subject=Покупка на сайте - {{ bild.seite.titel }} - {{ bild.titel }} ({{ bild.price }} руб.)">Купить</a> за <strong>{{ bild.price }}</strong> руб.</small></p>
+                         </div>
+        </div>
+      {% endif %}
 
 
 {% endblock %}

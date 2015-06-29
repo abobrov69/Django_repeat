@@ -5,10 +5,10 @@
 
 {% block pagename %}<a href="/galerie/">Галерея</a> - <a href="../{{ seite.seite_url }}">{{ seite.titel }}</a>{% endblock %}
 
-{% block galery_ref %}<strong>[<a href="/galerie/">Галерея</a> - <em><a href="../{{ seite.seite_url }}">{{ seite.titel }}</a></em>]</strong>{% endblock %}
+{% block galery_ref %}<strong>[<a href="/galerie/">Галерея</a> - <em><a href="{{ view.no_pg_num_str }}{{ seite.seite_url }}">{{ seite.titel }}</a></em>]</strong>{% endblock %}
 
 {% block content %}
-<div class="container">
+    <div class="container">
     {% if seite.text %}
       <div class="row-fluid">
         <div class="span12">
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <hr>
+
       <div class="row-fluid">
                {% for bilds_arr in view.bilds %}
                   <div class="row-fluid">
