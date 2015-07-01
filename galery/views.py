@@ -2,6 +2,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from galery.models import GalerieSeite, Bild
 from django.http import HttpResponse, HttpResponseRedirect
 
+bilds_sort_order = ('-sort_num','-pk')
+bilds_in_seite = 6
 
 class AuthorView(TemplateView):
     a = 1
@@ -59,7 +61,6 @@ class PageView(CheckDeletedPageMixin, DetailView):
     pg_num_next = 2
     no_pg_num_str = ''
     img_in_row = 3
-    img_in_pg = 6
     n_span = 6
     num_pages = 0
 
@@ -75,10 +76,10 @@ class PageView(CheckDeletedPageMixin, DetailView):
             self.no_pg_num_str = '../'
         qs = self.model._default_manager.filter(seite_url=kwargs['seite_url'])
         if qs.exists():
-            bs = qs.get().bild_set.order_by ('-sort_num','-pk')
+            bs = qs.get().bild_set.order_by (*bilds_sort_order)
             n5 = len (bs)
-            n1 = n5 / self.img_in_pg
-            self.num_pages = n1 + (1 if n5 % self.img_in_pg else 0)
+            n1 = n5 / bilds_in_seite
+            self.num_pages = n1 + (1 if n5 % bilds_in_seite else 0)
             if self.num_pages < self.pg_num: self.pg_num = self.num_pages
             self.pg_num_prev = self.pg_num - 1
             self.pg_num_next = self.pg_num + 1
@@ -111,8 +112,8 @@ class PageView(CheckDeletedPageMixin, DetailView):
 
             self.bilds = []
             i = 1
-            n_first = 0 if self.num_pages == 0 else (self.pg_num-1) * self.img_in_pg
-            n1 = n_first+self.img_in_pg
+            n_first = 0 if self.num_pages == 0 else (self.pg_num-1) * bilds_in_seite
+            n1 = n_first+bilds_in_seite
             bs = bs [n_first:n1]
             for k in bs:
                 if i == 1: self.bilds.append([])
@@ -130,6 +131,22 @@ class OneImageView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(OneImageView, self).get_context_data(**kwargs)
         context['aurl'] = self.request.build_absolute_uri()
+        curr_bild = context [self.context_object_name]
+        qs = curr_bild.seite.bild_set.order_by (*bilds_sort_order)
+        ind = 0
+        while qs[ind].pk <> curr_bild.pk: ind+= 1
+
+        if ind==0:
+            context['prev_bild'] = ''
+        else:
+            pg = 1 + (ind-1) / bilds_in_seite
+            context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[ind-1].pk)
+        qs_len = qs.count()
+        if ind>=qs_len-1:
+            context ['next_bild'] = ''
+        else:
+            pg = 1 + (ind+1) / bilds_in_seite
+            context ['next_bild'] = '../../'+str(pg)+'/'+str(qs[ind+1].pk)
         return context
 
     def dispatch(self, request, *args, **kwargs):
