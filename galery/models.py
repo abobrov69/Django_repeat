@@ -20,13 +20,13 @@ class Bild(models.Model):
     dateiname_gross = models.CharField(max_length=64, verbose_name= 'Big image file name')
     dateiname_klein = models.CharField(max_length=64, verbose_name= 'Small image file name')
     kommentar = models.CharField(max_length=128, verbose_name= 'Comment', default=' ')
-    isdeleted = models.BooleanField(default=False)
+    isdeleted = models.IntegerField(default=0)
     sort_num = models.IntegerField(default=0)
     price = models.IntegerField (default=0)
 
     def __unicode__(self):
-        return self.titel + '\n' + self.dateiname_gross
+        return self.titel + '\n' + self.dateiname_gross + str(self.isdeleted)
 
     def delete(self, using=None):
-        self.isdeleted = True
+        self.isdeleted = 1
         self.save ()

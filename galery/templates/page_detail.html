@@ -3,9 +3,7 @@
 
 {% block title %}Галерея - {{ seite.titel }}{% endblock %}
 
-{% block pagename %}<a href="/galerie/">Галерея</a> - <a href="../{{ seite.seite_url }}">{{ seite.titel }}</a>{% endblock %}
-
-{% block galery_ref %}<strong>[<a href="/galerie/">Галерея</a> - <em><a href="{{ view.no_pg_num_str }}{{ seite.seite_url }}">{{ seite.titel }}</a></em>]</strong>{% endblock %}
+{% block galery_ref %}<strong>[<a href="/galerie/">Галерея</a> - <em><a href="../{{ view.no_pg_num_str }}{{ seite.seite_url }}">{{ seite.titel }}</a></em>]</strong>{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -20,7 +18,7 @@
               <div class="span4">
             <p class="text-right">
                 {% if  view.pg_num_prev %}
-                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}">[&larr; Предыдущая страница]</a>
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}" title="Страница {{ view.pg_num_prev }}">[&larr; Предыдущая страница]</a>
                 {% endif %} 
             </p>
         </div>
@@ -30,7 +28,7 @@
         <div class="span4">
             <p class="text-left">
                 {% if  view.pg_num_next %}
-                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}">[Следующая страница &rarr;]</a>
+                    <a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}" title="Страница {{ view.pg_num_next }}">[Следующая страница &rarr;]</a>
                 {% endif %}
             </p>
         </div>
@@ -40,7 +38,7 @@
               <div class="span12"><h5>
             <p class="text-center">
                 {% if  view.pg_left_arrow %}
-                    <a href="{{ view.no_pg_num_str }}1">|<</a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}"><<</a>&nbsp;
+                    <a href="{{ view.no_pg_num_str }}1" title="Страница 1">|<</a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}" title="Страница {{ view.pg_num_prev }}"><<</a>&nbsp;
                 {% endif %}
 
                 {% if  view.pg_num_larr %}
@@ -55,7 +53,7 @@
                     {% endfor %}
                 {% endif %}
                 {% if  view.pg_right_arrow %}
-                    &nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}">>></a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.num_pages }}">>|</a>
+                    &nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}" title="Страница {{ view.pg_num_next }}">>></a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.num_pages }} " title="Страница {{ view.num_pages }}">>|</a>
                 {% endif %}
             </p></h5>
         </div>

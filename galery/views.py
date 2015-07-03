@@ -2,7 +2,6 @@ from django.views.generic import TemplateView, ListView, DetailView
 from galery.models import GalerieSeite, Bild
 from django.http import HttpResponse, HttpResponseRedirect
 
-bilds_sort_order = ('-sort_num','-pk')
 bilds_in_seite = 6
 
 class AuthorView(TemplateView):
@@ -32,6 +31,10 @@ class PageListView(ListView):
 
 def detail(request, pk):
     return HttpResponse("You're looking for image number %s." % pk)
+
+def get_sort_bilds_list (curr_seite):
+    bilds_sort_order = ('-sort_num','-pk')
+    return curr_seite.bild_set.filter ( isdeleted=0 ).order_by (*bilds_sort_order)
 
 
 class CheckDeletedPageMixin(object):
@@ -76,7 +79,7 @@ class PageView(CheckDeletedPageMixin, DetailView):
             self.no_pg_num_str = '../'
         qs = self.model._default_manager.filter(seite_url=kwargs['seite_url'])
         if qs.exists():
-            bs = qs.get().bild_set.order_by (*bilds_sort_order)
+            bs = get_sort_bilds_list (qs.get())
             n5 = len (bs)
             n1 = n5 / bilds_in_seite
             self.num_pages = n1 + (1 if n5 % bilds_in_seite else 0)
@@ -89,6 +92,9 @@ class PageView(CheckDeletedPageMixin, DetailView):
                 if n1 < 1: n1 = 1
                 self.pg_left_arrow = (n1 > 1)
                 n5 = n1 + self.pg_lst_len - 1
+                if n5>self.num_pages:
+                    n5 = self.num_pages
+                    n1 = n5 - self.pg_lst_len + 1
                 self.pg_right_arrow = ( n5 < self.num_pages)
             else:
                 n1 = 1
@@ -132,21 +138,27 @@ class OneImageView(DetailView):
         context = super(OneImageView, self).get_context_data(**kwargs)
         context['aurl'] = self.request.build_absolute_uri()
         curr_bild = context [self.context_object_name]
-        qs = curr_bild.seite.bild_set.order_by (*bilds_sort_order)
+        qs = get_sort_bilds_list (curr_bild.seite)
         ind = 0
         while qs[ind].pk <> curr_bild.pk: ind+= 1
-
+        qs_len = qs.count()
         if ind==0:
-            context['prev_bild'] = ''
+            pg = 1 + (qs_len-1) / bilds_in_seite
+            context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[qs_len-1].pk)
+            context['prev_titel'] = qs[qs_len-1].titel
         else:
             pg = 1 + (ind-1) / bilds_in_seite
             context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[ind-1].pk)
-        qs_len = qs.count()
+            context['prev_titel'] = qs[ind-1].titel
+
         if ind>=qs_len-1:
-            context ['next_bild'] = ''
+            pg = 1
+            context ['next_bild'] = '../../'+str(pg)+'/'+str(qs[0].pk)
+            context ['next_titel'] = qs[0].titel
         else:
             pg = 1 + (ind+1) / bilds_in_seite
             context ['next_bild'] = '../../'+str(pg)+'/'+str(qs[ind+1].pk)
+            context ['next_titel'] = qs[ind+1].titel
         return context
 
     def dispatch(self, request, *args, **kwargs):

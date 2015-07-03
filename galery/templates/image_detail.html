@@ -16,15 +16,21 @@
 
 {% block title %}Галерея - {{ bild.seite.titel }} - {{ bild.titel }}{% endblock %}
 
-{% block pagename %}
-    <a href="/galerie/">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>
-{% endblock %}
-
 {% block galery_ref %}
-    <strong>[<a href="/galerie/">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a> - <em><a href="./">{{ bild.titel }}</a></em>]</strong>
+    <strong>[<a href="/galerie/">Галерея</a> - <a href="../../../{{ bild.seite.seite_url|strip }}/{{ view.pg_num }}">{{ bild.seite.titel }}</a>]</strong>
 {% endblock %}
 
 {% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="{% static "js/social-likes.min.js" %}"></script>
 
@@ -33,7 +39,7 @@
               <div class="span3">
                 <p class="text-right">
                 {% if prev_bild %}
-                    <a href="{{prev_bild }}">[&larr; Предыдущая работа]</a>
+                    <a href="{{prev_bild }}" title="{{ prev_titel }}">[&larr; <strong>{{ prev_titel }}</strong>]</a>
                 {% endif %}
                 </p>
               </div>
@@ -43,7 +49,7 @@
               <div class="span3">
                 <p class="text-left">
                 {% if next_bild %}
-                    <a href="{{ next_bild }}">[Следующая работа &rarr;]</a>
+                    <a href="{{ next_bild }}" title="{{ next_titel }}">[<strong>{{ next_titel }}</strong> &rarr;]</a>
                 {% endif %}
                 </p>
               </div>      </div>

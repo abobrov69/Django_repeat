@@ -9,7 +9,7 @@
     <link href="{% static "css/bootstrap-responsive.min.css" %}" rel="stylesheet">
     {% block pagehead %}{% endblock %}
   </head>
-<body>
+<body background="{{ media_url|default:"/static/media/" }}papier_2048.jpg">
 <div class="container" xmlns="http://www.w3.org/1999/html">
     <div class="page-header">
         <h2><p class="text-center"><a href="/">Татьяна Боброва</a></p></h2>
@@ -27,15 +27,7 @@
       </div><!--/row-->
     </div></div>
 
-    <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
+
     <div class="container" xmlns="http://www.w3.org/1999/html">
 
 
