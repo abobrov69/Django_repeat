@@ -8,7 +8,7 @@
     <meta property="og:image" content="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}" />
     <meta property="og:description" content="{{ bild.kommentar }}" />
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
-    <script type="text/javascript">VK.init({apiId: 4971548, onlyWidgets: true});</script>
+    <script type="text/javascript">VK.init({apiId: 4971544, onlyWidgets: true});</script>
 
 
 {% endblock %}
@@ -39,7 +39,7 @@
               <div class="span3">
                 <p class="text-right">
                 {% if prev_bild %}
-                    <a href="{{prev_bild }}" title="{{ prev_titel }}">[&larr; <strong>{{ prev_titel }}</strong>]</a>
+                    <a href="{{prev_bild }}" title="{{ prev_titel }}">[&larr; <strong>{{ prev_titel }}</strong> ]</a>
                 {% endif %}
                 </p>
               </div>
@@ -49,7 +49,7 @@
               <div class="span3">
                 <p class="text-left">
                 {% if next_bild %}
-                    <a href="{{ next_bild }}" title="{{ next_titel }}">[<strong>{{ next_titel }}</strong> &rarr;]</a>
+                    <a href="{{ next_bild }}" title="{{ next_titel }}">[ <strong>{{ next_titel }}</strong> &rarr;]</a>
                 {% endif %}
                 </p>
               </div>      </div>
@@ -93,12 +93,15 @@
                          <script src="http://cdn.connect.mail.ru/js/loader.js" type="text/javascript" charset="UTF-8"></script>
                      </li>
                      <li>&nbsp</li><li>&nbsp</li>
-		     {% if bild.price %}
+	       	     {% if bild.price %}
                         <li>
-                             <p class="text-center"><strong><a href="mailto:author@mail.ru?subject=Покупка на сайте - {{ bild.seite.titel }} - {{ bild.titel }} ({{ bild.price }} руб.)">Купить</a></strong> за <strong>{{ bild.price }}</strong> руб.</p>
+                             <p class="text-center"><strong><a href="mailto:author@pushinda.ru?subject=Покупка на сайте - {{ bild.seite.titel }} - {{ bild.titel }} ({{ bild.price }} руб.)">Купить</a></strong> за <strong>{{ bild.price }}</strong> руб.</p>
                         </li>
+                        <li>&nbsp</li><li>&nbsp</li>
 	             {% endif %}
-                  </ul>
+                     <li>
+                         <p class="text-center"><strong><a href="mailto:author@pushinda.ru?subject=Заказ постера на сайте - {{ bild.seite.titel }} - {{ bild.titel }}">Заказать постер</a></strong></p>
+                     </li>
             </div>
       </div>
 

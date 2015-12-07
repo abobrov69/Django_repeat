@@ -38,7 +38,12 @@
               <div class="span12"><h5>
             <p class="text-center">
                 {% if  view.pg_left_arrow %}
-                    <a href="{{ view.no_pg_num_str }}1" title="Страница 1">|<</a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}" title="Страница {{ view.pg_num_prev }}"><<</a>&nbsp;
+                    {% if  view.pg_num_prev %}
+                        <a href="{{ view.no_pg_num_str }}1" title="Страница 1">|<</a>
+                        &nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_prev }}" title="Страница {{ view.pg_num_prev }}"><<</a>
+                        &nbsp;
+                    {% else %}|<&nbsp;&nbsp;<<&nbsp;
+                    {% endif %}
                 {% endif %}
 
                 {% if  view.pg_num_larr %}
@@ -53,7 +58,11 @@
                     {% endfor %}
                 {% endif %}
                 {% if  view.pg_right_arrow %}
-                    &nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}" title="Страница {{ view.pg_num_next }}">>></a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.num_pages }} " title="Страница {{ view.num_pages }}">>|</a>
+                    {% if  view.pg_num_next %}
+                       &nbsp;<a href="{{ view.no_pg_num_str }}{{ view.pg_num_next }}" title="Страница {{ view.pg_num_next }}">>></a>&nbsp;&nbsp;<a href="{{ view.no_pg_num_str }}{{ view.num_pages }} " title="Страница {{ view.num_pages }}">>|</a>
+                    {% else %}
+                       &nbsp;>>&nbsp;&nbsp;>|
+                    {% endif %}
                 {% endif %}
             </p></h5>
         </div>
@@ -73,7 +82,7 @@
                   <div class="row-fluid">
                      {% for bild in bilds_arr %}
                          <div class="span{{ view.n_span }}">
-                             <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}">{{bild.titel}}</p></a></p>
+                             <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}"><strong>{{bild.titel}}</strong></a></p>
                          </div>
                      {% endfor %}
                   </div>

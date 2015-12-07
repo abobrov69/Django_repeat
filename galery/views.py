@@ -58,8 +58,8 @@ class PageView(CheckDeletedPageMixin, DetailView):
     pg_num_prev = 0
     pg_num_larr = 0
     pg_num_rarr = 0
-    pg_left_arrow = False
-    pg_right_arrow = False
+    pg_left_arrow = True
+    pg_right_arrow = True
     pg_lst_len = 5
     pg_num_next = 2
     no_pg_num_str = ''
@@ -87,15 +87,15 @@ class PageView(CheckDeletedPageMixin, DetailView):
             self.pg_num_prev = self.pg_num - 1
             self.pg_num_next = self.pg_num + 1
             if self.num_pages < self.pg_num_next: self.pg_num_next = 0
+            self.pg_right_arrow = True
+            self.pg_left_arrow = True
             if self.num_pages > self.pg_lst_len:
                 n1 = self.pg_num - self.pg_lst_len / 2
                 if n1 < 1: n1 = 1
-                self.pg_left_arrow = (n1 > 1)
                 n5 = n1 + self.pg_lst_len - 1
                 if n5>self.num_pages:
                     n5 = self.num_pages
                     n1 = n5 - self.pg_lst_len + 1
-                self.pg_right_arrow = ( n5 < self.num_pages)
             else:
                 n1 = 1
                 n5 = n1 + self.num_pages - 1
