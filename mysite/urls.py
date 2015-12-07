@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     (r'^ueber/$', AboutView.as_view()),
     (r'^kunstler/$', AuthorView.as_view()),
     url(r'^galerie/', include('galery.urls')),
+    url(r'^nachrichten/', include('nachrichten.urls')),
     url(r'^macht/', include(admin.site.urls)),
     url('^$', RootPageView.as_view (), name="rootpage"),
 )

@@ -15,9 +15,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
 from gans_auth_views import gns_login_required
 
-
-class AboutView(TemplateView):
-    template_name = "about.html"
+news_url_page_pref = '/nachrichten'
 
 def display_meta(request):
     values = request.META.items()
@@ -37,7 +35,7 @@ class MsgListView(ListView):
         return super(MsgListView,self).dispatch (request, *args, **kwargs)
 
 class BlogMainMixin (object):
-    paginate_by = 15
+    paginate_by = 10
     model = Publication
     queryset = Publication._default_manager.filter (isdeleted=False)
 
@@ -56,12 +54,13 @@ class BlogMainMixin (object):
 """
 
 class BlogMainView(BlogMainMixin,ListView):
-    form_class = MsgForm
+#    form_class = MsgForm
     context_object_name = 'msg_list'
     show_msg_lenght = 60
     db_error = False
     form = False
     template_name = 'blog.html'
+    url_prefix = news_url_page_pref
     max_page_list_lenght = 10
     min_page_list_lenght = 5
 
@@ -92,6 +91,8 @@ class BlogMainView(BlogMainMixin,ListView):
 #        bbb = qqq
         context ['db_error'] = self.db_error
         if self.form: context['form'] = self.form
+        context['url_prefix'] = ""
+        if self.url_prefix: context['url_prefix'] = self.url_prefix
         if self.hostname: context['hostname'] = self.hostname
         page_list_lenght = min (self.max_page_list_lenght, context ['paginator'].num_pages / 2 + 1)
         page_list_lenght = max (page_list_lenght, min (self.min_page_list_lenght, context ['paginator'].num_pages ))
@@ -111,6 +112,7 @@ class BlogMainView(BlogMainMixin,ListView):
         context ['left_dots'] = ' '+str (start)+' ' if start>0 else ''
         context ['right_dots'] = ' '+str(end + 1)+' ' if end<context ['paginator'].num_pages else ''
         context ['pg_list'] = [' '+str(x+1)+' ' for x in range (start, end) ]
+        context ['page_txt'] = context ['page_obj'].__repr__()[5:-1]
 #        aaa = bbb
         return context
 
@@ -126,12 +128,13 @@ class BlogMainView(BlogMainMixin,ListView):
             initial['message'] = request.session ['request_POST']['message']
             del request.session["request_POST"]
 #            eff = dfsdfsf
-        self.form = self.form_class(initial=initial)
+#        self.form = self.form_class(initial=initial)
 #        self.SetFormUser (request)
 #        c = kwargs ['context']
 #        aaaa = ldfkldfk
         return super(BlogMainView, self).get (request)
 
+"""
     @method_decorator(gns_login_required)
     def post(self, request, *args, **kwargs):
         self.form = self.form_class(request.POST)
@@ -151,18 +154,22 @@ class BlogMainView(BlogMainMixin,ListView):
                 return super(BlogMainView, self).get (request)  #  self.render_to_response(self.get_context_data(context)) #
             return HttpResponseRedirect (reverse('blogclass'))
         return super(BlogMainView, self).get (request)  #  self.render_to_response(self.get_context_data(context))
+"""
 
 class BlogMainViewAnchor(BlogMainMixin,MultipleObjectMixin,RedirectView):
 
     def get_redirect_url(self, **kwargs):
         post = self.kwargs.get('post') or self.request.GET.get('post')
-        redir_str = '/'
+#        aaa = bbbqew
+        redir_str = news_url_page_pref + '/'
         try:
             post = int(post)
         except ValueError:
+            aaa = bbb
             return redir_str
         qs = self.get_queryset ()
         i = 0
+#        bbb = kjhkjh
         for i in range (len(qs)/self.paginate_by):
             if qs [(i+1)*self.paginate_by].pk<post:
                 start = i*self.paginate_by
@@ -177,11 +184,10 @@ class BlogMainViewAnchor(BlogMainMixin,MultipleObjectMixin,RedirectView):
                 if qs[j].pk == post:
                     redir_str += (str (i+1) + "/#" + str(post))
                     z = qs[j].isdeleted
-#                    bbb = kjhkjh
                     break
             else:
                 redir_str += str (i+1)
-#                aaa = asdasd
+#        aaa = asdasd
         return redir_str
 
 """
