@@ -13,7 +13,7 @@
                      {% for seite in seite_arr %}
                          <div class="span4">
                              <p class="text-center"><a href="{{ seite.seite_url }}">
-                             <img align=top class="img-polaroid" src="{{ media_url|default:"/static/media/" }}{{ seite.dateiname_img|strip }}"></a></p>
+                             <img align=top class="img-polaroid" src="{{ MEDIA_URL }}{{ seite.dateiname_img|strip }}"></a></p>
                          </div>
                      {% endfor %}
                   </div>

@@ -83,6 +83,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'C:\Users\gans91\Documents\Wrk\PycharmProjects\Django_repeat\static\media'
+MEDIA_URL = '/static/media/'
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 

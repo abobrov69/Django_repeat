@@ -1,7 +1,7 @@
 #from django.shortcuts import render_to_response, render
 from sys import exc_info
-from forms import MsgForm, MsgForm2
-from models import Publication
+from forms import MsgFormCar, MsgForm2
+from models import Publication, Car
 from datetime import datetime
 from django.views.generic import RedirectView, TemplateView, ListView
 from django.views.generic.list import MultipleObjectMixin # , View, FormView
@@ -259,3 +259,18 @@ class MsgDelete(MakeSuccessUrlMixin,DeleteView):
 class MsgView (CheckDeletedMsgMixin,DetailView):
     template_name = "publication_detail.html"
     upper_class = DetailView
+
+class CarView (UpdateView):
+    form_class = MsgFormCar
+    template_name = "car.html"
+    model = Car
+    success_url = reverse_lazy('blogclass')
+
+    def form_valid(self, form):
+        """
+        If the form is valid, save the associated model.
+        """
+        a = self
+        aaaaaaaaaa = ffffffffff
+        self.object = form.save()
+        return super(CarView, self).form_valid(form)

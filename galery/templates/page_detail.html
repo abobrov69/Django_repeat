@@ -75,7 +75,7 @@
                      {% for bild in bilds_arr %}
                          <div class="span{{ view.n_span }}">
                              <p class="text-center"><a href="{{ view.no_pg_num_str }}../image/{{ view.pg_num }}/{{ bild.pk }}">
-                             <img align=top class="img-polaroid" src="{{ media_url|default:"/static/media/" }}{{ bild.dateiname_klein|strip }}"></a></p>
+                             <img align=top class="img-polaroid" src="{{ MEDIA_URL }}{{ bild.dateiname_klein|strip }}"></a></p>
                          </div>
                      {% endfor %}
                   </div>
