@@ -6,6 +6,7 @@ class GalerieSeite(models.Model):
     isdeleted = models.BooleanField(default=False)
     text = models.TextField(blank=True, verbose_name='Text')
     dateiname_img = models.CharField(max_length=64, verbose_name= 'Image file name', default=' ')
+    img = models.ImageField(default='', blank=True)
 
     def __unicode__(self):
         return self.titel + '\n' + self.seite_url
@@ -23,6 +24,8 @@ class Bild(models.Model):
     isdeleted = models.IntegerField(default=0)
     sort_num = models.IntegerField(default=0)
     price = models.IntegerField (default=0)
+    img_gross = models.ImageField(default='', verbose_name= 'Big image file', blank=True)
+    img_klein = models.ImageField(default='', verbose_name= 'Small image file', blank=True)
 
     def __unicode__(self):
         return self.titel + '\n' + self.dateiname_gross + str(self.isdeleted)

@@ -271,6 +271,21 @@ class CarView (UpdateView):
         If the form is valid, save the associated model.
         """
         a = self
-        aaaaaaaaaa = ffffffffff
+#        aaaaaaaaaa = ffffffffff
         self.object = form.save()
         return super(CarView, self).form_valid(form)
+
+class CarCreaView (CreateView):
+    form_class = MsgFormCar
+    template_name = "car.html"
+    model = Car
+    success_url = '/macht'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.username:
+            self.template_name = "about.html"
+        self.success_url = '/'
+        a = super(CarCreaView,self)
+        b = type(a)
+        return super(CreateView,self).dispatch(request, *args, **kwargs)
+

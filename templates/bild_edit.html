@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Edit car{% endblock %}
+{% block title %}Edit Bild{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -17,10 +17,9 @@
               <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
                      <ul class="nav nav-list">
                          {{ form.as_ul }}
-                     </ul>
-                     <input type="submit" value="Save message">
+                     </ul><br>
+                     <input type="submit" value="Save Bild">
               </form>
-                {{ user.username }}
         </div><!--/span-->
       </div><!--/row-->
     </div><!--/.fluid-container-->

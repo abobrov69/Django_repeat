@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from nachrichten.views import MsgListView, BlogMainView, MsgDelete, MsgUpdate, display_meta, MsgView, BlogMainViewAnchor, CarView
+from nachrichten.views import MsgListView, BlogMainView, MsgDelete, MsgUpdate, display_meta, MsgView, BlogMainViewAnchor, CarCreaView
 from django.conf import settings
 import os
 from django.contrib.auth.views import login, logout
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url('^$', BlogMainView.as_view (), name="blogclass"),
 #    url(r'^admin/', include(admin.site.urls)),
-    url(r'cars/(?P<pk>\d+)/$', CarView.as_view(), name='car_update'),
+    url(r'cars/$', CarCreaView.as_view(), name='car_update'),
     url(r'edit/(?P<pk>\d+)/$', MsgUpdate.as_view(), name='msg_update'),
     url(r'delete/(?P<pk>\d+)/$', MsgDelete.as_view(), name='msg_delete'),
 #    url(r'detail/(?P<pk>\d+)/$', MsgView.as_view(), name='msg_detail'),

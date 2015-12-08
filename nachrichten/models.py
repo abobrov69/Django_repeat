@@ -9,6 +9,8 @@ class Publication(models.Model):
     author = models.ForeignKey(
             settings.AUTH_USER_MODEL)
     isdeleted = models.BooleanField(default=False)
+    img_gross = models.ImageField(default='', blank=True)
+    img_klein = models.ImageField(default='', blank=True)
 
     def __unicode__(self):
         return str(self.date) + '\n' + self.text
