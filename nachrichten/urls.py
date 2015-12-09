@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, include, url
-from nachrichten.views import MsgListView, BlogMainView, MsgDelete, MsgUpdate, display_meta, MsgView, BlogMainViewAnchor, CarCreaView
+from django.conf.urls import patterns, url
+from nachrichten.views import MsgListView, BlogMainView, MsgDelete, MsgUpdate, display_meta, MsgView, BlogMainViewAnchor
 from django.conf import settings
 import os
 from django.contrib.auth.views import login, logout
@@ -12,7 +12,15 @@ from gans_auth_views import GnsLoginFormView
 #admin.autodiscover()
 
 urlpatterns = patterns('',
+    url('^$', BlogMainView.as_view (), name="blogclass"),
+    url(r'edit/(?P<pk>\d+)/$', MsgUpdate.as_view(), name='msg_update'),
+    url(r'delete/(?P<pk>\d+)/$', MsgDelete.as_view(), name='msg_delete'),
+    url(r'^details/(?P<pk>\d+)/$', MsgView.as_view(), name='msg_detail'),
+    url(r'^notiz/(?P<post>\d+)/$', BlogMainViewAnchor.as_view(),name='msg_post'),
+    url(r'(?P<page>\d+)/$', BlogMainView.as_view ()),
+    )
 
+"""
     # Examples: d
     # url(r'^$', 'blog1.views.home', name='home'),
     # url(r'^blog1/', include('blog1.foo.urls')),
@@ -37,7 +45,7 @@ urlpatterns = patterns('',
     (r'^accounts/login/$', login),  #  ),
     (r'^accounts/logout/$', logout),
     )
-
+"""
 if settings.DEBUG:
     urlpatterns += patterns('django.contrib.staticfiles.views',
          url(r'^static/(?P<path>.*)$', 'serve'),

@@ -236,14 +236,13 @@ class CheckDeletedMsgMixin (object):
 class MakeSuccessUrlMixin (CheckDeletedMsgMixin):
     error_template_name = "publication_user_error.html"
 
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
-        if request.user.username <> obj.author.username:
+        if (not request.user.username) or request.user.username <> obj.author.username:
             self.template_name = self.error_template_name
-        self.success_url = reverse_lazy('msg_post', args=[str(obj.pk)])
-        return self.upper_class.dispatch(self, request, *args, **kwargs)
-
+            self.success_url = '/'
+        else: self.success_url = reverse_lazy('msg_post', args=[str(obj.pk)])
+        return self.upper_class.dispatch(request, *args, **kwargs)
 
 class MsgUpdate(MakeSuccessUrlMixin,UpdateView):
     form_class = MsgForm2
@@ -260,32 +259,33 @@ class MsgView (CheckDeletedMsgMixin,DetailView):
     template_name = "publication_detail.html"
     upper_class = DetailView
 
-class CarView (UpdateView):
-    form_class = MsgFormCar
-    template_name = "car.html"
-    model = Car
+class MsgCreate (CreateView):
+    form_class = MsgForm2
+    template_name = "publication_form.html"
+    model = Publication
     success_url = reverse_lazy('blogclass')
-
-    def form_valid(self, form):
-        """
-        If the form is valid, save the associated model.
-        """
-        a = self
-#        aaaaaaaaaa = ffffffffff
-        self.object = form.save()
-        return super(CarView, self).form_valid(form)
-
-class CarCreaView (CreateView):
-    form_class = MsgFormCar
-    template_name = "car.html"
-    model = Car
-    success_url = '/macht'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.username:
-            self.template_name = "about.html"
-        self.success_url = '/'
-        a = super(CarCreaView,self)
-        b = type(a)
-        return super(CreateView,self).dispatch(request, *args, **kwargs)
+            self.template_name = "publication_user_error.html"
+            self.success_url = '/'
+        return super(MsgCreate,self).dispatch(request, *args, **kwargs)
 
+    def form_valid(self, form):
+        form.instance.date = datetime.now()
+        form.instance.author = self.request.user
+        self.object = form.save()
+        if form.instance.img_gross:
+            if form.instance.img_gross.name [0:2] == './': form.instance.img_gross.name = form.instance.img_gross.name [2:]
+            img_gr = PILImage.open(form.instance.img_gross.path)
+            if img_gr.width > img_gr.height:
+                kf = img_gr.width / small_image_width
+                if img_gr.height / kf > small_image_height: kf = img_gr.height / small_image_height
+            else: kf = img_gr.height / small_image_height
+            img_kl = img_gr.resize((int(img_gr.width/kf),int(img_gr.height/kf)),PILImage.ANTIALIAS)
+            form.instance.img_klein.name = 'kl_'+form.instance.img_gross.name
+            x = form.instance.img_klein.name
+            y = form.instance.img_klein.path
+            img_kl.save (y)
+#        aaaa = bbb
+        return super(MsgCreate, self).form_valid(form)
