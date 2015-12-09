@@ -13,9 +13,11 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 #from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
-from gans_auth_views import gns_login_required
+from PIL import Image as PILImage
 
 news_url_page_pref = '/nachrichten'
+small_image_width = 350.0
+small_image_height = 280.0
 
 def display_meta(request):
     values = request.META.items()
@@ -242,13 +244,7 @@ class MakeSuccessUrlMixin (CheckDeletedMsgMixin):
             self.template_name = self.error_template_name
             self.success_url = '/'
         else: self.success_url = reverse_lazy('msg_post', args=[str(obj.pk)])
-        return self.upper_class.dispatch(request, *args, **kwargs)
-
-class MsgUpdate(MakeSuccessUrlMixin,UpdateView):
-    form_class = MsgForm2
-    success_url = reverse_lazy('blogclass')
-    template_name = "publication_form.html"
-    upper_class = UpdateView
+        return self.upper_class.dispatch(self, request, *args, **kwargs)
 
 class MsgDelete(MakeSuccessUrlMixin,DeleteView):
     success_url = reverse_lazy('blogclass')
@@ -259,17 +255,9 @@ class MsgView (CheckDeletedMsgMixin,DetailView):
     template_name = "publication_detail.html"
     upper_class = DetailView
 
-class MsgCreate (CreateView):
-    form_class = MsgForm2
-    template_name = "publication_form.html"
-    model = Publication
-    success_url = reverse_lazy('blogclass')
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.username:
-            self.template_name = "publication_user_error.html"
-            self.success_url = '/'
-        return super(MsgCreate,self).dispatch(request, *args, **kwargs)
+class MsgFormSaveMixin (object):
+    form_class = MsgForm2
 
     def form_valid(self, form):
         form.instance.date = datetime.now()
@@ -288,4 +276,22 @@ class MsgCreate (CreateView):
             y = form.instance.img_klein.path
             img_kl.save (y)
 #        aaaa = bbb
-        return super(MsgCreate, self).form_valid(form)
+        return self.upper_class.form_valid(self,form)
+
+class MsgUpdate(MakeSuccessUrlMixin,MsgFormSaveMixin,UpdateView):
+    success_url = reverse_lazy('blogclass')
+    template_name = "publication_form.html"
+    upper_class = UpdateView
+
+class MsgCreate (MsgFormSaveMixin,CreateView):
+    template_name = "publication_form.html"
+    model = Publication
+    success_url = reverse_lazy('blogclass')
+    upper_class = CreateView
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.username:
+            self.template_name = "publication_user_error.html"
+            self.success_url = '/'
+        return self.upper_class.dispatch(self, request, *args, **kwargs)
+

@@ -3,13 +3,11 @@ from django.views.generic.edit import CreateView, UpdateView
 from forms import BildForm, MsgForm2
 from galery.models import GalerieSeite, Bild
 from nachrichten.models import Publication
-from nachrichten.views import CheckDeletedMsgMixin
+from nachrichten.views import small_image_width, small_image_height, MsgCreate
 from datetime import datetime
 from PIL import Image as PILImage
 from django.contrib import admin
 
-small_image_width = 350.0
-small_image_height = 280.0
 
 
 class RootPageView(TemplateView):
@@ -38,5 +36,6 @@ class ImageCreateView (CreateView):
         self.success_url = '/'
         return super(ImageCreateView,self).dispatch(request, *args, **kwargs)
 
-
+class NewsCreate (MsgCreate):
+    success_url = '/macht'
 
