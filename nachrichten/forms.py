@@ -26,10 +26,10 @@ class MsgForm(forms.Form):
 class MsgForm2 (forms.ModelForm):
     class Meta:
         model = Publication
-        exclude = ('date','author','isdeleted','img_klein')
-#        fields = ('text')
+        exclude = ('date','author','isdeleted','img_klein','url_bild_pg')
         widgets = {
             'text': forms.Textarea(attrs={'cols': 80, 'rows': 3, 'class': "span9"}),
+            'titel': forms.TextInput(attrs={'class': "span5"}),
         }
 
 

@@ -58,7 +58,7 @@ class BlogMainMixin (object):
 class BlogMainView(BlogMainMixin,ListView):
 #    form_class = MsgForm
     context_object_name = 'msg_list'
-    show_msg_lenght = 60
+    show_msg_lenght = 120
     db_error = False
     form = False
     template_name = 'blog.html'
@@ -255,6 +255,13 @@ class MsgView (CheckDeletedMsgMixin,DetailView):
     template_name = "publication_detail.html"
     upper_class = DetailView
 
+def ImageResize (img_gr):
+    if img_gr.width > img_gr.height:
+        kf = img_gr.width / small_image_width
+        if img_gr.height / kf > small_image_height: kf = img_gr.height / small_image_height
+    else: kf = img_gr.height / small_image_height
+    return img_gr.resize((int(img_gr.width/kf),int(img_gr.height/kf)),PILImage.ANTIALIAS)
+
 
 class MsgFormSaveMixin (object):
     form_class = MsgForm2
@@ -266,15 +273,9 @@ class MsgFormSaveMixin (object):
         if form.instance.img_gross:
             if form.instance.img_gross.name [0:2] == './': form.instance.img_gross.name = form.instance.img_gross.name [2:]
             img_gr = PILImage.open(form.instance.img_gross.path)
-            if img_gr.width > img_gr.height:
-                kf = img_gr.width / small_image_width
-                if img_gr.height / kf > small_image_height: kf = img_gr.height / small_image_height
-            else: kf = img_gr.height / small_image_height
-            img_kl = img_gr.resize((int(img_gr.width/kf),int(img_gr.height/kf)),PILImage.ANTIALIAS)
+            img_kl = ImageResize(img_gr)
             form.instance.img_klein.name = 'kl_'+form.instance.img_gross.name
-            x = form.instance.img_klein.name
-            y = form.instance.img_klein.path
-            img_kl.save (y)
+            img_kl.save (form.instance.img_klein.path)
 #        aaaa = bbb
         return self.upper_class.form_valid(self,form)
 

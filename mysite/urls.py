@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.conf.urls import patterns, include, url
-from views import AboutView, RootPageView, ImageCreateView, NewsCreate
+from views import AboutView, RootPageView, BildCreateView, NewsCreate, NewsofBildCreateView
 from galery.views import AuthorView
 from nachrichten.views import BlogMainView, BlogMainViewAnchor, MsgDelete, MsgUpdate, MsgView
 from django.contrib.auth.views import login, logout
@@ -24,8 +24,9 @@ urlpatterns = patterns('',
     url(r'^galerie/', include('galery.urls')),
     url(r'^nachrichten/', include(nachrichten_patterns)),
     url(r'^macht/', include(admin.site.urls)),
-    url(r'^image_create/$', ImageCreateView.as_view(), name='image_edit'),
-    url(r'^news_create/$', NewsCreate.as_view(), name='news_edit'),
+    url(r'^image_create/$', BildCreateView.as_view(), name='image_add'),
+    url(r'news_img_crea/(?P<bld_pk>\d+)/$', NewsofBildCreateView.as_view(), name='news_image_add'),
+    url(r'^news_create/$', NewsCreate.as_view(), name='news_create'),
     url('^$', RootPageView.as_view (), name="rootpage"),
 #    (r'^accounts/login/$', login),  #  ),
 #    (r'^accounts/logout/$', logout),
