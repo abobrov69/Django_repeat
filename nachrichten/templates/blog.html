@@ -44,15 +44,27 @@
                            <div class="span12"><hr size="1" width="100%" align="center" color="black"></div>
                       </div>
                       <div class="row-fluid">
-                         <div class="span3"><a name="{{ msg.pk }}"></a> <i>{{ msg.date }}</i></div>
-                         <div class="span7">{{msg.text}}</div>
+                         <div class="span3"><a name="{{ msg.pk }}"></a> <em>{{ msg.date|date:"d M Y H:i" }}</em></div>
+                         <div class="span7"><a href="{{ url_prefix }}/details/{{ msg.pk }}"><strong>{% if msg.titel %}{{msg.titel}}{% else %}...{% endif %}</strong></a></div>
                          <div class="span2">
-                             <a href="{{ url_prefix }}/details/{{ msg.pk }}" class="btn btn-mini"><i class="icon-search"></i></a>&nbsp
                              {% if msg.author|slugify == user.username|slugify %}
+                                 <a href="{{ url_prefix }}/details/{{ msg.pk }}" class="btn btn-mini"><i class="icon-search"></i></a>&nbsp
                                  <a href="{{ url_prefix }}/edit/{{ msg.pk }}" class="btn btn-mini"><i class="icon-pencil"></i></a>&nbsp
                                  <a href="{{ url_prefix }}/delete/{{ msg.pk }}" class="btn btn-mini"><i class="icon-trash"></i></a>&nbsp
                              {% endif %}
                          </div>
+                      </div>
+                      <div class="row-fluid">
+                         {% if msg.img_klein.name|length > 0  %}
+                            <div class="span3">
+                                {% if msg.url_bild_pg %}<a href="{{ msg.url_bild_pg }}">{% endif %}<img class="img-polaroid" src="{{ MEDIA_URL }}{{ msg.img_klein.name }}">{% if msg.url_bild_pg %}</a>{% endif %}</div>
+                            <div class="span9">
+                         {% else %}
+                            <div class="span12">
+                         {% endif %}
+                                {{msg.text}}
+                            </div>
+                      </div>
                       <div class="row-fluid">
                          <div class="span11" align='right'>
                              <small><em>Постоянная ссылка на сообщение: <a href="{{ url_prefix }}/notiz/{{ msg.pk }}">http://{{hostname}}{{ url_prefix }}/notiz/{{ msg.pk }}</a></em></small>

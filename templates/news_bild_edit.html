@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Bild{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+      <div class="row-fluid">
+        <div class="span12">
+
+              {% if form.errors %}
+                    <p class="text-error">
+                    Please correct the error{{ form.errors|pluralize }} below.
+                    </p>
+              {% endif %}
+
+              <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                     <ul class="nav nav-list">
+                         {{ form.as_ul }}
+                     </ul><br>
+                     <button type="submit" class="btn">Создать новость</button>&nbsp;&nbsp;&nbsp;<a href="/macht" class="btn">Пропустить создание новости</a>
+              </form>
+        </div><!--/span-->
+      </div><!--/row-->
+    </div><!--/.fluid-container-->
+
+{% endblock %}

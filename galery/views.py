@@ -144,10 +144,12 @@ class OneImageView(DetailView):
         qs_len = qs.count()
         if ind==0:
             pg = 1 + (qs_len-1) / bilds_in_seite
+            pgn = 1 + qs_len / bilds_in_seite
             context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[qs_len-1].pk)
             context['prev_titel'] = qs[qs_len-1].titel
         else:
             pg = 1 + (ind-1) / bilds_in_seite
+            pgn = 1 + ind / bilds_in_seite
             context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[ind-1].pk)
             context['prev_titel'] = qs[ind-1].titel
 
@@ -159,6 +161,8 @@ class OneImageView(DetailView):
             pg = 1 + (ind+1) / bilds_in_seite
             context ['next_bild'] = '../../'+str(pg)+'/'+str(qs[ind+1].pk)
             context ['next_titel'] = qs[ind+1].titel
+        self.pg_num = pgn
+#        w = q
         return context
 
     def dispatch(self, request, *args, **kwargs):
