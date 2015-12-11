@@ -1,18 +1,57 @@
 {% extends "base.html" %}
+{% load static from staticfiles %}
+{% block pagehead %}
+    <link href="{% static "css/social-likes_classic.css" %}" rel="stylesheet">
+    <meta property="og:url" content="{{ aurl }}" />
+    <meta property="og:title" content="Татьяна Боброва - Новости - {{ publication.titel }}" />
+    <meta property="og:image" content="{{ kl_img }}" />
+    <meta property="og:description" content="{{ publication.text }}" />
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
+    <script type="text/javascript">VK.init({apiId: 4971544, onlyWidgets: true});</script>
+
+
+{% endblock %}
 
 {% block title %}Новости - {{ publication.titel }}{% endblock %}
 {% block news_ref%}<strong><a href="/nachrichten/notiz/{{ publication.pk }}">[Новости]</a></strong>{% endblock %}
 
 {% block content %}
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "js/social-likes.min.js" %}"></script>
+
     <div class="container">
       <div class="row-fluid">
-        <div class="span12">
-            <p><a href="/nachrichten/notiz/{{ publication.pk }}">[Вернуться к списку новостей]</a> </p>
-        </div>
+              <div class="span5">
+                <p class="text-left">
+                {% if prev_pk > 0 %}
+                    <a href="/nachrichten/details/{{ prev_pk }}" title="{{ prev_date|date:"d M Y H:i" }} {{ prev_titel }}">[&larr; <em>{{ prev_date|date:"d M Y H:i" }}</em> <strong>{{ prev_titel }}</strong> ]</a>
+                {% endif %}
+                </p>
+              </div>
+              <div class="span2">
+                   <p class="text-center"><a href="/nachrichten/notiz/{{ publication.pk }}">[Вернуться к списку]</a> </p>
+              </div>
+              <div class="span5">
+                <p class="text-right">
+                {% if next_pk > 0 %}
+                    <a href="/nachrichten/details/{{ next_pk }}" title="{{ next_date|date:"d M Y H:i" }} {{ next_titel }}">[ <em>{{ next_date|date:"d M Y H:i" }}</em> <strong>{{ next_titel }}</strong> &rarr;]</a>
+                {% endif %}
+                </p>
+              </div>
       </div>
       <div class="row-fluid">
         <div class="span12">
-              <h3><p class="text-center">{{ publication.titel }}</p></h3>
+              <h4><p class="text-center">{{ publication.titel }}</p></h4>
         </div><!--/span-->
       </div><!--/row-->
       <div class="row-fluid">
@@ -20,6 +59,14 @@
             <p class="text-center"><i>{{ publication.date|date:"d M Y H:i" }}</i><br>{{ publication.text }}</p>
         </div><!--/span-->
       </div><!--/row-->
+      {% if publication.url_bild_pg  %}
+          <div class="row-fluid">
+            <div class="span12">
+                <p class="text-center"><a href="{{ publication.url_bild_pg }}"><small>[ Страница работы в Галерее ]</small></a></p>
+            </div>
+          </div>
+          <a href="{{ publication.url_bild_pg }}">
+      {% endif %}
       <div class="row-fluid">
         <div class="span1">
 	    	&nbsp;
@@ -27,12 +74,39 @@
         <div class="span10">
             <p class="text-center">
             {% if publication.img_gross.name|length > 0  %}
-                {% if publication.url_bild_pg %}<a href="{{ publication.url_bild_pg }}">{% endif %}<img align=top class="img-polaroid" src="{{ MEDIA_URL }}{{ publication.img_gross.name }}">{% if publication.url_bild_pg %}</a>{% endif %}\
+                {% if publication.url_bild_pg %}<a href="{{ publication.url_bild_pg }}">{% endif %}<img align=top class="img-polaroid" src="{{ MEDIA_URL }}{{ publication.img_gross.name }}">{% if publication.url_bild_pg %}</a>{% endif %}
             {% endif %}
             </p>
         </div>
         <div class="span1">
-	    	&nbsp;
+	    	 <ul class="unstyled">
+                     <li>
+                        <div class="social-likes social-likes_single" data-single-title="Поделиться" data-url="{{ aurl }}" data-title="Татьяна Боброва - Новости - {{ publication.titel }}">
+                            <div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+                            <div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+                            <div class="mailru" title="Поделиться ссылкой в Моём мире">Мой мир</div>
+                            <div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+                            <div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div>
+                            <div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+                            <div class="pinterest" title="Поделиться картинкой на Пинтересте" data-media="">Pinterest</div>
+                        </div>
+                     </li>
+                     <li>&nbsp</li>
+                     <li>
+                         <div class="fb-like" data-href="{{ aurl }}" data-layout="button_count" data-action="like" data-show-faces="true"></div>
+                     </li>
+                     <li>&nbsp</li>
+                     <li>
+                         <div id="vk_like"></div><script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", pageTitle: "Татьяна Боброва - Новости - {{ publication.titel }}", pageDescription: "{{ kl_img }}"});</script>
+                     </li>
+                     <li>&nbsp;</li>
+                     <li>
+                         <a target="_blank" class="mrc__plugin_uber_like_button" href="http://connect.mail.ru/share" data-mrc-config="{'cm' : '1', 'sz' : '20', 'st' : '2', 'tp' : 'mm'}">Нравится</a>
+                         <script src="http://cdn.connect.mail.ru/js/loader.js" type="text/javascript" charset="UTF-8"></script>
+                     </li>
+
+             </ul>
+
         </div>
       </div><!--/row-->
 

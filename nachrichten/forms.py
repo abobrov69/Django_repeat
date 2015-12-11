@@ -1,5 +1,5 @@
 from django import forms
-from models import Publication, Car
+from models import Publication
 
 #class MsgTextArea (forms.Textarea)
 
@@ -32,9 +32,3 @@ class MsgForm2 (forms.ModelForm):
             'titel': forms.TextInput(attrs={'class': "span5"}),
         }
 
-
-
-class MsgFormCar (forms.ModelForm):
-    class Meta:
-        model = Car
-        exclude = ()

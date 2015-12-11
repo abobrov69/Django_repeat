@@ -20,3 +20,4 @@ class BildForm (forms.ModelForm):
 class NewsBildForm (forms.Form):
     titel = forms.CharField(widget=forms.TextInput(attrs={'class': "span5"}),label='Заголовок', max_length=50)
     text = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 3, 'class': "span9"}) , max_length=250, label=u'Текст новости')
+    l_go_news_pg = forms.BooleanField (widget=forms.CheckboxInput, label = u'Перейти на страницу новости после сохранения')

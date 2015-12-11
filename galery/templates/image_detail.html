@@ -5,7 +5,7 @@
     <link href="{% static "css/social-likes_classic.css" %}" rel="stylesheet">
     <meta property="og:url" content="{{ aurl }}" />
     <meta property="og:title" content="Татьяна Боброва - {{ bild.titel }}" />
-    <meta property="og:image" content="{{ MEDIA_URL }}{{ bild.dateiname_klein|strip }}" />
+    <meta property="og:image" content="{{ kl_img }}" />
     <meta property="og:description" content="{{ bild.kommentar }}" />
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?116"></script>
     <script type="text/javascript">VK.init({apiId: 4971544, onlyWidgets: true});</script>
@@ -37,7 +37,7 @@
 <div class="container">
       <div class="row-fluid">
               <div class="span3">
-                <p class="text-right">
+                <p class="text-left">
                 {% if prev_bild %}
                     <a href="{{prev_bild }}" title="{{ prev_titel }}">[&larr; <strong>{{ prev_titel }}</strong> ]</a>
                 {% endif %}
@@ -47,12 +47,13 @@
                              <h4><p class="text-center">{{ bild.titel }}</p></h4>
                          </div>
               <div class="span3">
-                <p class="text-left">
+                <p class="text-right">
                 {% if next_bild %}
                     <a href="{{ next_bild }}" title="{{ next_titel }}">[ <strong>{{ next_titel }}</strong> &rarr;]</a>
                 {% endif %}
                 </p>
-              </div>      </div>
+              </div>
+      </div>
       <div class="row-fluid">
                          <div class="span12">
                              <p class="text-center"><small>{{ bild.kommentar }}</small></p>
@@ -85,7 +86,8 @@
                      </li>
                      <li>&nbsp</li>
                      <li>
-                         <div id="vk_like"></div><script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", pageTitle: "Татьяна Боброва - {{ bild.titel }}", pageDescription: "{{ bild.kommentar }}", pageImage: "{{ MEDIA_URL }}{{ bild.dateiname_klein|strip }}"});</script>
+                         <div id="vk_like"></div><script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", pageTitle: "Татьяна Боброва - {{ bild.titel }}", pageDescription: "{{ bild.kommentar }}", pageImage: "{{ kl_img }}"});</script>
+                         <div id="vk_like"></div><script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", pageTitle: "Татьяна Боброва - {{ bild.titel }}", pageDescription: "{{ bild.kommentar }}", pageImage: "{{ kl_img }}"});</script>
                      </li>
                      <li>&nbsp;</li>
                      <li>
@@ -102,6 +104,7 @@
                      <li>
                          <p class="text-center"><strong><a href="mailto:author@pushinda.ru?subject=Заказ постера на сайте - {{ bild.seite.titel }} - {{ bild.titel }}">Заказать постер</a></strong></p>
                      </li>
+                 </ul>
             </div>
       </div>
 

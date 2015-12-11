@@ -1,7 +1,7 @@
 #from django.shortcuts import render_to_response, render
 from sys import exc_info
-from forms import MsgFormCar, MsgForm2
-from models import Publication, Car
+from forms import MsgForm2
+from models import Publication
 from datetime import datetime
 from django.views.generic import RedirectView, TemplateView, ListView
 from django.views.generic.list import MultipleObjectMixin # , View, FormView
@@ -14,10 +14,14 @@ from django.utils.decorators import method_decorator
 #from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
 from PIL import Image as PILImage
+from mysite.settings import MEDIA_URL
+from mysite.functions import get_absolute_root_url
 
 news_url_page_pref = '/nachrichten'
 small_image_width = 350.0
 small_image_height = 280.0
+
+
 
 def display_meta(request):
     values = request.META.items()
@@ -171,8 +175,12 @@ class BlogMainViewAnchor(BlogMainMixin,MultipleObjectMixin,RedirectView):
             return redir_str
         qs = self.get_queryset ()
         i = 0
+        l = len (qs)
+        if l % self.paginate_by == 0:
+            z = (l-1)/self.paginate_by
+        else: z = l/self.paginate_by
 #        bbb = kjhkjh
-        for i in range (len(qs)/self.paginate_by):
+        for i in range (z):
             if qs [(i+1)*self.paginate_by].pk<post:
                 start = i*self.paginate_by
                 end = (i+1)*self.paginate_by
@@ -254,26 +262,57 @@ class MsgDelete(MakeSuccessUrlMixin,DeleteView):
 class MsgView (CheckDeletedMsgMixin,DetailView):
     template_name = "publication_detail.html"
     upper_class = DetailView
+    default_image = 'portrait.jpg'
 
-def ImageResize (img_gr):
-    if img_gr.width > img_gr.height:
-        kf = img_gr.width / small_image_width
-        if img_gr.height / kf > small_image_height: kf = img_gr.height / small_image_height
-    else: kf = img_gr.height / small_image_height
-    return img_gr.resize((int(img_gr.width/kf),int(img_gr.height/kf)),PILImage.ANTIALIAS)
+    def get_context_data(self, **kwargs):
+        context = self.upper_class.get_context_data(self,**kwargs)
+        context['aurl'] = self.request.build_absolute_uri()
+        queryset = self.model._default_manager.filter (isdeleted=False)
+        pk_current = context['object'].pk
+        pk_prev = -1
+        pk_next = -1
+        l = len(queryset)
+        for i in range(0,l-1):
+            if queryset[i].pk > pk_current:
+               pk_next = queryset[i].pk
+               context ['next_titel']= queryset[i].titel
+               context ['next_date']= queryset[i].date
+            else: break
+        i = i+1
+        if i<l:
+            pk_prev = queryset[i].pk
+            context ['prev_titel']= queryset[i].titel
+            context ['prev_date']= queryset[i].date
+        context ['next_pk'] = pk_next
+        context ['prev_pk'] = pk_prev
+        i = context['object'].img_klein.name
+        if i: context ['kl_img'] = i.strip()
+        else: context ['kl_img'] = self.default_image
+        i = get_absolute_root_url(context['aurl'])+MEDIA_URL
+        context ['kl_img'] = i + context ['kl_img']
+        return context
+
+
+def ImageResize (img_gr, width, height):
+    if width > height:
+        kf = width / small_image_width
+        if height / kf > small_image_height: kf = height / small_image_height
+    else: kf = height / small_image_height
+    return img_gr.resize((int(width/kf),int(height/kf)),PILImage.ANTIALIAS)
 
 
 class MsgFormSaveMixin (object):
     form_class = MsgForm2
 
     def form_valid(self, form):
-        form.instance.date = datetime.now()
-        form.instance.author = self.request.user
+        if self.create:
+            form.instance.date = datetime.now()
+            form.instance.author = self.request.user
         self.object = form.save()
         if form.instance.img_gross:
             if form.instance.img_gross.name [0:2] == './': form.instance.img_gross.name = form.instance.img_gross.name [2:]
             img_gr = PILImage.open(form.instance.img_gross.path)
-            img_kl = ImageResize(img_gr)
+            img_kl = ImageResize(img_gr, form.instance.img_gross.width, form.instance.img_gross.height )
             form.instance.img_klein.name = 'kl_'+form.instance.img_gross.name
             img_kl.save (form.instance.img_klein.path)
 #        aaaa = bbb
@@ -283,12 +322,14 @@ class MsgUpdate(MakeSuccessUrlMixin,MsgFormSaveMixin,UpdateView):
     success_url = reverse_lazy('blogclass')
     template_name = "publication_form.html"
     upper_class = UpdateView
+    create = False
 
 class MsgCreate (MsgFormSaveMixin,CreateView):
     template_name = "publication_form.html"
     model = Publication
     success_url = reverse_lazy('blogclass')
     upper_class = CreateView
+    create = True
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.username:

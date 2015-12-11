@@ -1,6 +1,8 @@
 from django.views.generic import TemplateView, ListView, DetailView
 from galery.models import GalerieSeite, Bild
 from django.http import HttpResponse, HttpResponseRedirect
+from mysite.functions import get_absolute_root_url
+from mysite.settings import MEDIA_URL
 
 bilds_in_seite = 6
 
@@ -144,7 +146,9 @@ class OneImageView(DetailView):
         qs_len = qs.count()
         if ind==0:
             pg = 1 + (qs_len-1) / bilds_in_seite
-            pgn = 1 + qs_len / bilds_in_seite
+            if qs[0].pk <> curr_bild.pk:
+                pgn = 1 + qs_len / bilds_in_seite
+            else: pgn = 1
             context['prev_bild'] = '../../'+str(pg)+'/'+str(qs[qs_len-1].pk)
             context['prev_titel'] = qs[qs_len-1].titel
         else:
@@ -162,7 +166,11 @@ class OneImageView(DetailView):
             context ['next_bild'] = '../../'+str(pg)+'/'+str(qs[ind+1].pk)
             context ['next_titel'] = qs[ind+1].titel
         self.pg_num = pgn
-#        w = q
+        i = curr_bild.dateiname_klein
+        if i: context ['kl_img'] = i.strip()
+        else: context ['kl_img'] = self.default_image
+        i = get_absolute_root_url(context['aurl'])+MEDIA_URL
+        context ['kl_img'] = i + context ['kl_img']
         return context
 
     def dispatch(self, request, *args, **kwargs):

@@ -8,7 +8,7 @@ from nachrichten.models import Publication
 from nachrichten.views import ImageResize, MsgCreate
 from datetime import datetime
 from PIL import Image as PILImage
-from django.contrib import admin
+#from django.contrib import admin
 
 
 
@@ -44,7 +44,7 @@ class BildCreateView (CreateView):
             self.object = form.save()
             if form.instance.img_gross.name [0:2] == './': form.instance.img_gross.name = form.instance.img_gross.name [2:]
             img_gr = PILImage.open(form.instance.img_gross.path)
-            img_kl = ImageResize(img_gr)
+            img_kl = ImageResize(img_gr, form.instance.img_gross.width, form.instance.img_gross.height )
             form.instance.img_klein.name = 'kl_'+form.instance.img_gross.name
             img_kl.save (form.instance.img_klein.path)
             form.instance.dateiname_gross = form.instance.img_gross.name
@@ -54,6 +54,11 @@ class BildCreateView (CreateView):
 
 class NewsCreate (MsgCreate):
     success_url = '/macht'
+
+    def get_success_url(self):
+        a = self.object.pk
+        self.success_url = '/nachrichten/details/'+str (a)
+        return super (NewsCreate,self).get_success_url()
 
 class NewsofBildCreateView (FormView):
     form_class = NewsBildForm
@@ -93,4 +98,5 @@ class NewsofBildCreateView (FormView):
                 url_bild_pg = '/galerie/image/1/'+str(self.bld_pk)
         )
         news.save()
+        if form.cleaned_data['l_go_news_pg']: self.success_url = '/nachrichten/details/'+str (news.pk)
         return super (NewsofBildCreateView,self).form_valid(form)
