@@ -56,16 +56,22 @@
       </div><!--/row-->
       <div class="row-fluid">
         <div class="span12">
-            <p class="text-center"><i>{{ publication.date|date:"d M Y H:i" }}</i><br>{{ publication.text }}</p>
+            <p class="text-center"><i>{{ publication.date|date:"d M Y H:i" }}</i><br>{{ publication.text|safe }}</p>
         </div><!--/span-->
       </div><!--/row-->
+      {% if publication.ext_url %}
+          <div class="row-fluid">
+            <div class="span12">
+                <p class="text-center"><a href="{{ publication.ext_url }}" target="_blank"><small>[ Ссылка ]</small></a></p>
+            </div>
+          </div>
+      {% endif %}
       {% if publication.url_bild_pg  %}
           <div class="row-fluid">
             <div class="span12">
                 <p class="text-center"><a href="{{ publication.url_bild_pg }}"><small>[ Страница работы в Галерее ]</small></a></p>
             </div>
           </div>
-          <a href="{{ publication.url_bild_pg }}">
       {% endif %}
       <div class="row-fluid">
         <div class="span1">

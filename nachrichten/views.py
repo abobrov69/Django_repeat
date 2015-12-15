@@ -278,7 +278,10 @@ class MsgView (CheckDeletedMsgMixin,DetailView):
                context ['next_titel']= queryset[i].titel
                context ['next_date']= queryset[i].date
             else: break
-        i = i+1
+        if l==1:
+            i=1
+        else:
+            i = i+1
         if i<l:
             pk_prev = queryset[i].pk
             context ['prev_titel']= queryset[i].titel

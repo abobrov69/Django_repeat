@@ -83,7 +83,7 @@ class NewsofBildCreateView (FormView):
                 bld_t = self.bild.titel[:-1]
             else:
                 bld_t = self.bild.titel
-            self.initial['text'] = u'В раздел "'+self.bild.seite.titel+u'" добавлена новая '+u'работа "'+bld_t+'".'
+            self.initial['text'] = u'В раздел <strong>"'+self.bild.seite.titel+u'"</strong> добавлена новая '+u'работа <strong>"'+bld_t+'"</strong>.'
 #            a = b
         return FormView.dispatch(self, request, *args, **kwargs)
 
